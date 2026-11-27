@@ -1,0 +1,9 @@
+#VALORES DO EXPERIMENTO
+lista_porcentagem = ["100%","75%","50%","25%","10%"]
+intensidade_aleatoria = [1.5,1.25,0.99,0.68,0.42] #INTENSIDADE DAS FORÇAS
+dt = 0.001
+beta = 1 #COEFICIENTE DE ATRITO
+exp = 500 #NUMERO DE EXPERIMENTOS
+passos = 20000 #NUMERO DE PASSOS EM CADA EXPERIMENTO
+t = np.arange(passos)*dt
+tempo_pp = np.zeros((len(forcas), exp))
