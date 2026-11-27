@@ -1,0 +1,19 @@
+plt.figure(figsize=(10, 6))
+
+for i, F in enumerate(intensidade_aleatoria):
+
+    plt.scatter(
+        np.full(exp, F),
+        tempo_pp[i, :],
+        label=f'F = {F}',
+        alpha=0.7
+    )
+
+plt.xlabel('Intensidade do ruído (F)', fontsize=12)
+plt.ylabel('Tempo de primeira passagem', fontsize=12)
+plt.title('Tempo de primeira passagem para cada intensidade de ruído')
+
+plt.grid(alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.show()
