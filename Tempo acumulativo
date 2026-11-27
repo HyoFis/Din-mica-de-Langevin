@@ -33,3 +33,35 @@ for i, F in enumerate(intensidade_aleatoria):
           tempo_experimento += 1
           tempo_pp[i, exps] = tempo_experimento*dt
           passou = 1
+
+
+def func(x, a, b, c):
+    return a - b * np.exp(-c*x)
+
+plt.figure(figsize=(10, 6))
+
+for i, F in enumerate(intensidade_aleatoria):
+
+    PP_time = np.zeros(101)
+
+    for cat in range(101):
+        tt = tempo_pp[i]
+        tt = tt[tt > 0]
+        tt = tt[tt < cat]
+        PP_time[cat] = len(tt)
+
+    x = np.arange(101)
+
+    plt.scatter(x, PP_time, s=2, label=f'F = {F}')
+
+    popt, pcov = curve_fit(func, x, PP_time, p0=[exps, exps, 0.1], maxfev=10000)
+
+    plt.plot(x, func(x, *popt), label=f'Fit F={F}: c={popt[2]:.3f}')
+
+plt.title('Distribuição acumulada dos tempos de primeira passagem', fontsize=13)
+plt.xlabel('Tempo')
+plt.ylabel('Número acumulado de primeiras passagens')
+plt.legend()
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
