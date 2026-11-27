@@ -1,0 +1,51 @@
+for forca in range(len(intensidade_aleatoria)):
+  F=intensidade_aleatoria[forca]
+  t=np.arange(passos)*dt
+  xmed=np.zeros(passos)
+  pmed=np.zeros(passos)
+  Kmed=np.zeros(passos)
+  Vmed=np.zeros(passos)
+  xpmed=np.zeros(passos)
+
+  for experimento in tqdm(range(exp)):
+    xarray = np.zeros(passos)
+    parray = np.zeros(passos)
+    Karray = np.zeros(passos)
+    Varray = np.zeros(passos)
+    xarray[0] = -1/np.sqrt(2)
+    Varray[0] = 4*xarray[0]**4-4*xarray[0]**2
+
+    for step in range(passos-1):
+      xarray[step+1],parray[step+1] = passo_ruido(xarray[step],parray[step])
+      Karray[step+1] = 0.5*parray[step+1]**2
+      Varray[step+1] = 4*xarray[step+1]**4-4*xarray[step+1]**2
+
+    xparray = xarray*parray
+    xpmed += xparray
+    xmed += xarray
+    pmed += parray
+    Kmed += Karray
+    Vmed += Varray
+
+  xmed = xmed/exp
+  pmed = pmed/exp
+  Kmed = Kmed/exp
+  Vmed = Vmed/exp
+  xpmed = xpmed/exp
+
+  med = Kmed[5000:]+Vmed[5000:]
+  error=np.std(med)
+  print('error=', error)
+  med = np.mean(med)
+  print('med=', med)
+
+
+  plt.fill_between(t, (med-error)*np.ones(len(t)), (med+error)*np.ones(len(t)), alpha=0.5, color='red')
+  plt.scatter(t,Kmed+Vmed,s=2, label=f'Porcentagem F={lista_porcentagem[forca]}')
+  plt.plot(t, med*np.ones(len(t)), color='red')
+  plt.legend()
+  plt.title('Evolução temporal da energia mecânica')
+  plt.xlabel('Tempo')
+  plt.ylabel('Energia')
+  plt.tight_layout()
+  plt.grid()
