@@ -1,0 +1,16 @@
+#FUNÇÃO DO POTENCIAL DE POÇO DUPLO SEM RUIDO
+
+dt = 0.001 #unidades naturais
+
+def passo(x,p):
+  p = p - dt*(16*x**3 -8*x)
+  x = x + dt*p
+  return x,p
+
+
+#FUNÇÃO DA DINAMICA DE LANGEVIN EM POTENCIAL DE POÇOS DUPLOS
+
+def passo_ruido(x,p):
+  p = p - dt*(16*x**3 -8*x) - p*beta*dt + F*np.sqrt(dt)*np.random.normal(0,1)
+  x = x + dt*p
+  return x,p
