@@ -1,0 +1,35 @@
+for i, F in enumerate(intensidade_aleatoria):
+
+  for exps in tqdm(range(exp)):
+
+    xarray = np.zeros(passos)
+    parray = np.zeros(passos)
+    xarray[0] = -1/np.sqrt(2)
+
+    tempo_experimento = 0
+    caixa_atual = -1
+    caixa = -1
+    passou = 0
+
+    for step in range(passos-1):
+
+      xarray[step+1], parray[step+1] = passo_ruido(
+          xarray[step], parray[step]
+      )
+
+      if xarray[step+1] <= 0:
+        caixa_atual = -1
+      else:
+        caixa_atual = 1
+
+      if caixa == caixa_atual:
+        if passou == 0:
+          tempo_experimento += 1
+
+      else:
+        caixa = caixa_atual
+
+        if passou == 0:
+          tempo_experimento += 1
+          tempo_pp[i, exps] = tempo_experimento*dt
+          passou = 1
