@@ -1,0 +1,26 @@
+xteste = np.arange(-1, 1, 0.01)
+Vteste = 4*xteste**4 - 4*xteste**2
+
+plt.figure(figsize=(9, 5))
+
+plt.plot(xteste, Vteste, label=r'$V(x)=4x^4-4x^2$', linewidth=2)
+
+# Mínimos do potencial
+plt.scatter([-1/np.sqrt(2), 1/np.sqrt(2)], [-1, -1],
+            color='red', label='Mínimos do potencial', zorder=3)
+
+# Barreira de potencial
+plt.scatter([0], [0], color='black',
+            label='Barreira de potencial', zorder=3)
+
+plt.axhline(0, color='gray', linewidth=0.8)
+plt.axvline(0, color='gray', linewidth=0.8, linestyle='--')
+
+plt.xlabel('Posição x', fontsize=12)
+plt.ylabel('Energia potencial V(x)', fontsize=12)
+plt.title('Potencial de poço duplo', fontsize=14)
+
+plt.legend()
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
